@@ -1,99 +1,1061 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dialog Sri Lanka - Login</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dialog – My Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ════ BRAND TOKENS ════ */
+:root {
+  --plum:       #B14676;
+  --plum-dark:  #8E3560;
+  --plum-light: #F5E6EE;
+  --plum-faint: #FDF0F5;
+  --coral:      #E66D5A;
+  --charcoal:   #3C3C3C;
+  --white:      #FFFFFF;
+  --grad:       linear-gradient(135deg, #B14676 0%, #E66D5A 100%);
+  --grey-50:    #F8F8F8;
+  --grey-100:   #F2F2F2;
+  --grey-200:   #E2E2E2;
+  --grey-400:   #ADADAD;
+  --grey-600:   #6B6B6B;
+  --sidebar-w:  190px;
+  --topbar-h:   62px;
+  --shadow-sm:  0 1px 4px rgba(0,0,0,.06);
+  --shadow:     0 4px 16px rgba(0,0,0,.09);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,.13);
+  --radius:     14px;
+  --radius-sm:  8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--grey-50);color:var(--charcoal);min-height:100vh;-webkit-font-smoothing:antialiased}
+input,button,select{font-family:inherit}
+button{cursor:pointer}
+
+/* ════ PAGE SYSTEM ════ */
+.page{display:none;min-height:100vh}
+.page.active{display:flex;flex-direction:column}
+
+/* ════ LOGO SVG ════ */
+.logo-svg{height:26px;width:auto;display:block}
+
+/* ══════════════════════════════════════════════
+   AUTH SHARED
+══════════════════════════════════════════════ */
+.auth-page{background:white;position:relative;overflow:hidden}
+.auth-topbar{
+  position:relative;z-index:10;
+  display:flex;align-items:center;
+  padding:16px 40px;
+  border-bottom:3px solid transparent;
+  border-image:linear-gradient(to right,var(--plum),var(--coral)) 1;
+}
+.auth-body{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:40px 60px;gap:48px;
+  position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%;
+}
+/* poly bg */
+.poly-bg{position:absolute;right:0;bottom:0;width:52%;height:60%;pointer-events:none;z-index:0;opacity:.95}
+
+/* left panel */
+.auth-left{padding-right:16px}
+.auth-welcome{font-size:52px;font-weight:800;line-height:1.1;color:var(--plum);margin-bottom:16px}
+.auth-tagline{font-size:15px;color:var(--charcoal);line-height:1.65;margin-bottom:32px}
+.feature-list{display:flex;flex-direction:column;gap:10px}
+.feature-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--grey-50);border:1px solid var(--grey-200);
+  border-radius:var(--radius-sm);padding:11px 16px;
+  font-size:13.5px;font-weight:500;color:var(--charcoal);
+}
+.fi-icon{font-size:16px;flex-shrink:0}
+
+/* right card */
+.auth-right{display:flex;align-items:flex-start;justify-content:flex-end}
+.auth-card{
+  background:var(--plum-faint);border:1.5px solid #EAC8D9;
+  border-radius:var(--radius);padding:32px 28px;
+  width:100%;max-width:340px;box-shadow:var(--shadow);
+}
+.auth-card-title{font-size:20px;font-weight:700;color:var(--plum);margin-bottom:4px}
+.auth-card-desc{font-size:13px;color:var(--grey-600);line-height:1.5;margin-bottom:22px}
+.field-lbl{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:7px;display:block}
+
+/* phone field */
+.phone-wrap{
+  display:flex;border:1.5px solid #D9A8C2;border-radius:var(--radius-sm);
+  overflow:hidden;background:white;transition:border-color .2s,box-shadow .2s;margin-bottom:16px;
+}
+.phone-wrap:focus-within{border-color:var(--plum);box-shadow:0 0 0 3px rgba(177,70,118,.12)}
+.phone-prefix{
+  display:flex;align-items:center;gap:6px;padding:0 12px;
+  font-size:14px;font-weight:600;color:var(--charcoal);
+  background:#F7EEF4;border-right:1.5px solid #D9A8C2;white-space:nowrap;user-select:none;
+}
+.phone-prefix span{font-size:17px}
+#login-number{
+  flex:1;border:none;outline:none;padding:13px 14px;
+  font-size:14px;color:var(--charcoal);background:white;
+}
+#login-number::placeholder{color:var(--grey-400)}
+
+.field-error{font-size:12px;color:var(--coral);margin-top:-10px;margin-bottom:14px;display:none}
+
+.btn-grad{
+  width:100%;padding:13px;background:var(--grad);color:white;
+  border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+  box-shadow:0 4px 14px rgba(177,70,118,.28);
+  transition:opacity .2s,transform .1s;
+}
+.btn-grad:hover{opacity:.91}
+.btn-grad:active{transform:scale(.98)}
+
+.help-block{text-align:center;margin-top:18px;font-size:13px;color:var(--grey-600)}
+.help-pill{
+  display:inline-block;margin-top:8px;padding:6px 16px;
+  border:1px solid #D9A8C2;border-radius:20px;font-size:12px;font-weight:600;
+  color:var(--plum);background:white;transition:background .15s,color .15s;border:none;
+}
+.help-pill:hover{background:var(--plum);color:white}
+
+/* OTP */
+.otp-row{display:flex;gap:10px;margin-bottom:8px}
+.otp-row input{
+  width:54px;height:58px;flex:0 0 54px;text-align:center;
+  font-size:22px;font-weight:700;padding:0;
+  border:1.5px solid #D9A8C2;border-radius:var(--radius-sm);
+  background:white;outline:none;color:var(--charcoal);
+  transition:border-color .2s,box-shadow .2s;
+}
+.otp-row input:focus{border-color:var(--plum);box-shadow:0 0 0 3px rgba(177,70,118,.12)}
+#otp-error{font-size:12px;color:var(--coral);margin-bottom:14px;display:none}
+.timer-note{font-size:12px;color:var(--grey-400);margin-top:6px;text-align:center}
+.resend-row{text-align:center;margin-top:14px;font-size:13px;color:var(--grey-600)}
+.btn-resend{background:none;border:none;color:var(--plum);font-size:13px;font-weight:600;padding:0;transition:color .2s}
+.btn-resend:hover{color:var(--plum-dark);text-decoration:underline}
+.verify-phone{font-size:20px;font-weight:700;color:var(--plum);margin-bottom:20px}
+
+/* ══════════════════════════════════════════════
+   APP SHELL – sidebar layout
+══════════════════════════════════════════════ */
+.app-shell{
+  flex:1;display:flex;flex-direction:column;
+}
+
+/* TOP HEADER */
+.app-topbar{
+  height:var(--topbar-h);
+  background:white;
+  border-bottom:1px solid var(--grey-200);
+  display:flex;align-items:center;
+  padding:0 28px 0 0;
+  position:sticky;top:0;z-index:200;
+  box-shadow:var(--shadow-sm);
+}
+/* left brand strip */
+.topbar-brand{
+  width:var(--sidebar-w);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  height:100%;
+  border-right:1px solid var(--grey-200);
+}
+/* user info centre */
+.topbar-user{
+  display:flex;align-items:center;gap:10px;
+  padding:0 24px;flex:1;
+}
+.topbar-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:700;font-size:14px;flex-shrink:0;
+}
+.topbar-user-info{}
+.topbar-user-name{font-size:13px;font-weight:700;color:var(--charcoal)}
+.topbar-status{font-size:11px;color:var(--grey-600);display:flex;align-items:center;gap:4px;margin-top:1px}
+.status-dot{width:7px;height:7px;background:#22C55E;border-radius:50%;display:inline-block}
+
+/* right icons */
+.topbar-icons{display:flex;align-items:center;gap:6px}
+.topbar-icon-btn{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--grey-200);
+  background:white;display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:background .15s;position:relative;
+}
+.topbar-icon-btn:hover{background:var(--plum-light)}
+.notif-badge{
+  position:absolute;top:4px;right:4px;
+  width:16px;height:16px;background:var(--coral);
+  border-radius:50%;border:2px solid white;
+  font-size:9px;font-weight:700;color:white;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* BODY = sidebar + content */
+.app-body{flex:1;display:flex;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:white;border-right:1px solid var(--grey-200);
+  display:flex;flex-direction:column;
+  padding:16px 0;
+  min-height:calc(100vh - var(--topbar-h));
+  position:sticky;top:var(--topbar-h);
+  height:calc(100vh - var(--topbar-h));
+  overflow-y:auto;
+}
+.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 10px}
+.sidebar-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:var(--radius-sm);
+  font-size:14px;font-weight:500;color:var(--grey-600);
+  border:none;background:none;text-align:left;
+  transition:background .15s,color .15s;
+  position:relative;
+}
+.sidebar-link:hover{background:var(--plum-light);color:var(--plum)}
+.sidebar-link.active{background:var(--plum-light);color:var(--plum);font-weight:700}
+.sidebar-link .sl-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0}
+.sidebar-link .sl-dot{
+  width:6px;height:6px;background:var(--coral);border-radius:50%;
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+}
+.sidebar-bottom{padding:12px 10px;border-top:1px solid var(--grey-200);margin-top:auto}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:8px}
+.sidebar-avatar{
+  width:34px;height:34px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:700;font-size:13px;flex-shrink:0;
+}
+.sidebar-user-name{font-size:13px;font-weight:700;color:var(--charcoal)}
+.sidebar-user-num{font-size:11px;color:var(--grey-400);margin-top:1px}
+
+/* MAIN CONTENT AREA */
+.main-content{flex:1;padding:28px 32px;overflow-y:auto;min-height:calc(100vh - var(--topbar-h))}
+
+/* ══════════════════════════════════════════════
+   HOME PAGE CONTENT
+══════════════════════════════════════════════ */
+.home-balance-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:white;border:1px solid var(--grey-200);border-radius:var(--radius);
+  padding:16px 22px;margin-bottom:22px;box-shadow:var(--shadow-sm);
+}
+.bal-left{display:flex;align-items:center;gap:14px}
+.bal-icon{
+  width:44px;height:44px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:white;
+}
+.bal-label{font-size:11px;color:var(--grey-600);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
+.bal-amount{font-size:22px;font-weight:800;color:var(--charcoal);margin-top:1px}
+.bal-number{font-size:12px;color:var(--grey-400);margin-top:1px}
+.bal-meta{display:flex;gap:28px}
+.bal-meta-item{text-align:center}
+.bal-meta-label{font-size:11px;color:var(--grey-400);text-transform:uppercase;letter-spacing:.5px}
+.bal-meta-val{font-size:14px;font-weight:700;color:var(--charcoal);margin-top:2px}
+.btn-recharge{
+  padding:10px 22px;background:var(--grad);color:white;
+  border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:700;
+  box-shadow:0 4px 12px rgba(177,70,118,.22);transition:opacity .2s;
+}
+.btn-recharge:hover{opacity:.9}
+
+.usage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.usage-card{background:white;border:1px solid var(--grey-200);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
+.usage-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px}
+.usage-icon.data{background:#EEF2FF}
+.usage-icon.voice{background:#F0FDF4}
+.usage-icon.sms{background:#FFF9EB}
+.usage-lbl{font-size:11px;color:var(--grey-600);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.usage-val{font-size:21px;font-weight:800;color:var(--charcoal);margin-top:2px}
+.usage-sub{font-size:11px;color:var(--grey-400);margin-top:3px}
+.prog-track{background:var(--grey-100);border-radius:4px;height:5px;margin-top:10px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px}
+.fill-data{background:var(--plum)}
+.fill-voice{background:#22C55E}
+.fill-sms{background:var(--coral)}
+
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.section-hd{font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:12px}
+
+.activity-list{background:white;border:1px solid var(--grey-200);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.act-item{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--grey-100)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.act-info{flex:1}
+.act-name{font-size:13.5px;font-weight:600}
+.act-time{font-size:11.5px;color:var(--grey-400);margin-top:1px}
+.act-amt{font-size:13.5px;font-weight:700}
+.act-amt.debit{color:var(--coral)}
+.act-amt.credit{color:#16A34A}
+
+.notif-list{display:flex;flex-direction:column;gap:10px}
+.notif-card{
+  background:white;border:1px solid var(--grey-200);border-radius:var(--radius);
+  padding:14px 16px;display:flex;gap:12px;align-items:flex-start;box-shadow:var(--shadow-sm);
+}
+.notif-card.unread{border-left:3px solid var(--plum)}
+.nc-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.nc-title{font-size:13.5px;font-weight:700;color:var(--charcoal)}
+.nc-body{font-size:12.5px;color:var(--grey-600);margin-top:2px;line-height:1.5}
+.nc-time{font-size:11px;color:var(--grey-400);margin-top:4px}
+
+/* ══════════════════════════════════════════════
+   PACKAGES PAGE CONTENT  – matches Figma exactly
+══════════════════════════════════════════════ */
+.pkg-page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+}
+.pkg-page-title{font-size:26px;font-weight:800;color:var(--charcoal)}
+
+/* current plan chip */
+.current-plan-chip{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--grey-200);border-radius:var(--radius-sm);
+  overflow:hidden;background:white;box-shadow:var(--shadow-sm);
+}
+.chip-label{font-size:12px;color:var(--charcoal);padding:8px 14px;font-weight:500}
+.chip-price{font-size:12px;font-weight:700;color:var(--plum);padding:8px 0}
+.chip-renew{
+  background:var(--plum);color:white;padding:8px 14px;
+  font-size:12px;font-weight:700;border:none;
+  transition:background .15s;
+}
+.chip-renew:hover{background:var(--plum-dark)}
+
+/* type filter tabs (ALL / DATA / VOICE / SMS) */
+.type-tabs{display:flex;align-items:center;gap:0;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.type-tab{
+  padding:8px 22px;border-radius:6px;font-size:13px;font-weight:600;
+  border:1.5px solid var(--grey-200);background:white;color:var(--grey-600);
+  transition:all .15s;
+}
+.type-tab:hover{border-color:var(--plum);color:var(--plum)}
+.type-tab.active{background:var(--plum);color:white;border-color:var(--plum)}
+
+/* search + sort/filter controls */
+.pkg-controls{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.pkg-search-wrap{
+  flex:1;display:flex;align-items:center;
+  border:1.5px solid var(--grey-200);border-radius:var(--radius-sm);
+  background:white;padding:0 14px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.pkg-search-wrap:focus-within{border-color:var(--plum);box-shadow:0 0 0 3px rgba(177,70,118,.1)}
+.pkg-search-icon{font-size:14px;color:var(--grey-400);margin-right:8px}
+.pkg-search{border:none;outline:none;font-size:13.5px;color:var(--charcoal);background:transparent;flex:1;padding:9px 0}
+.pkg-search::placeholder{color:var(--grey-400)}
+.icon-btn-sq{
+  width:36px;height:36px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--grey-200);background:white;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:background .15s,border-color .15s;
+}
+.icon-btn-sq:hover{background:var(--plum-light);border-color:var(--plum)}
+
+/* sub-category tabs (ANYTIME / NIGHT TIME / etc.) */
+.sub-tabs-wrap{
+  background:white;border:1px solid var(--grey-200);border-radius:var(--radius);
+  padding:0 6px;margin-bottom:22px;display:flex;
+  box-shadow:var(--shadow-sm);overflow-x:auto;
+}
+.sub-tab{
+  padding:14px 18px;font-size:13px;font-weight:600;color:var(--grey-600);
+  border:none;background:none;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+}
+.sub-tab:hover{color:var(--plum)}
+.sub-tab.active{color:var(--plum);border-bottom-color:var(--plum)}
+
+/* section label */
+.pkg-section-title{
+  font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:4px;
+  display:flex;align-items:baseline;gap:12px;
+}
+.pkg-section-count{font-size:12px;font-weight:500;color:var(--grey-400)}
+
+/* PACKAGE CARDS GRID */
+.pkg-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+
+.pkg-card-new{
+  background:white;border:1.5px solid var(--grey-200);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.pkg-card-new:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#EAC8D9}
+
+/* card pink watermark background */
+.pkg-card-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(245,230,238,.55) 0%,rgba(251,233,231,.3) 100%);
+  pointer-events:none;z-index:0;
+}
+/* subtle decorative circle */
+.pkg-card-bg::after{
+  content:'';position:absolute;right:-30px;bottom:-30px;
+  width:110px;height:110px;border-radius:50%;
+  background:rgba(177,70,118,.08);
+}
+
+.pkg-card-inner{position:relative;z-index:1;padding:16px 18px;flex:1;display:flex;flex-direction:column}
+
+.pkg-type-pill{
+  display:inline-flex;align-items:center;
+  background:rgba(177,70,118,.12);color:var(--plum);
+  font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;
+  margin-bottom:8px;width:fit-content;
+}
+.pkg-card-size{font-size:28px;font-weight:800;color:var(--plum);line-height:1.1;margin-bottom:2px}
+.pkg-card-subname{font-size:11.5px;color:var(--grey-600);margin-bottom:10px}
+
+.pkg-details{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.pkg-features{flex:1}
+.pkg-feature{font-size:11.5px;color:var(--charcoal);display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.pkg-feature::before{content:'•';color:var(--plum);font-size:14px;line-height:1}
+.pkg-price-col{text-align:right;flex-shrink:0}
+.pkg-price-val{font-size:14px;font-weight:800;color:var(--charcoal)}
+.pkg-validity-val{font-size:11px;color:var(--grey-400);margin-top:2px}
+
+.pkg-card-actions{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;border-top:1px solid rgba(0,0,0,.06);
+  position:relative;z-index:1;
+}
+.btn-subscribe-new{
+  flex:1;padding:9px 0;
+  background:var(--grad);color:white;
+  border:none;border-radius:6px;
+  font-size:13px;font-weight:700;
+  box-shadow:0 3px 10px rgba(177,70,118,.22);
+  transition:opacity .2s;
+}
+.btn-subscribe-new:hover{opacity:.9}
+.btn-details{
+  padding:9px 14px;border:1.5px solid var(--grey-200);background:white;
+  border-radius:6px;font-size:13px;font-weight:600;color:var(--grey-600);
+  transition:border-color .15s,color .15s;
+  white-space:nowrap;
+}
+.btn-details:hover{border-color:var(--plum);color:var(--plum)}
+
+.pkg-empty-state{text-align:center;padding:60px 20px;color:var(--grey-400);grid-column:1/-1}
+.pkg-empty-icon{font-size:40px;margin-bottom:12px}
+
+/* ════ MODAL ════ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.35);z-index:500;
+  align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:white;border-radius:var(--radius);
+  padding:32px;max-width:380px;width:90%;
+  text-align:center;box-shadow:var(--shadow-lg);
+}
+.modal-icon{font-size:46px;margin-bottom:12px}
+.modal-title{font-size:19px;font-weight:800;color:var(--charcoal)}
+.modal-body{font-size:14px;color:var(--grey-600);margin-top:8px;line-height:1.6}
+.modal-actions{display:flex;gap:10px;margin-top:22px}
+.modal-actions button{flex:1}
+.btn-cancel{
+  padding:12px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--grey-200);background:white;
+  font-size:14px;font-weight:600;transition:background .15s;
+}
+.btn-cancel:hover{background:var(--grey-100)}
+.btn-confirm{
+  padding:12px;border-radius:var(--radius-sm);
+  background:var(--grad);color:white;border:none;
+  font-size:14px;font-weight:700;transition:opacity .2s;
+}
+.btn-confirm:hover{opacity:.9}
+
+/* ════ TOAST ════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--charcoal);color:white;
+  padding:11px 22px;border-radius:10px;
+  font-size:14px;font-weight:500;
+  opacity:0;transition:opacity .25s,transform .25s;
+  z-index:9999;pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ════ HISTORY PAGE ════ */
+.history-list{display:flex;flex-direction:column;gap:12px}
+.history-card{
+  background:white;border:1px solid var(--grey-200);border-radius:var(--radius);
+  padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm);
+}
+.history-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.history-info{flex:1}
+.history-name{font-size:14px;font-weight:600}
+.history-date{font-size:12px;color:var(--grey-400);margin-top:2px}
+.history-amt{font-size:15px;font-weight:700}
+.history-amt.debit{color:var(--coral)}
+.history-amt.credit{color:#16A34A}
+.history-status{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;margin-top:4px;display:inline-block}
+.status-success{background:#F0FDF4;color:#16A34A}
+.status-pending{background:#FFF9EB;color:#D97706}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:900px){
+  .auth-body{grid-template-columns:1fr;padding:28px 24px}
+  .auth-right{justify-content:center}
+  .auth-card{max-width:100%}
+  .poly-bg{display:none}
+  .auth-welcome{font-size:36px}
+  .sidebar{display:none}
+  .main-content{padding:20px 16px}
+  .pkg-cards-grid{grid-template-columns:1fr 1fr}
+  .usage-grid{grid-template-columns:1fr 1fr}
+  .home-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .pkg-cards-grid{grid-template-columns:1fr}
+  .usage-grid{grid-template-columns:1fr}
+  .topbar-brand{width:60px}
+  .app-topbar{padding:0 16px 0 0}
+}
+</style>
 </head>
 <body>
-  <!-- Decorative Elements -->
-  <div class="decoration decoration-1"></div>
-  <div class="decoration decoration-2"></div>
 
-  <div class="login-wrapper">
-    <!-- Left Section -->
-    <div class="login-left">
-      <div class="login-left-content">
-        <div class="login-logo">📱 Dialog</div>
-        <h1>Welcome Back!</h1>
-        <p>Manage your account from a single, simple and efficient dashboard.</p>
-
-        <ul class="feature-list" aria-label="Features">
-          <li>
-            <div class="feature-icon">✓</div>
-            <span>Easy balance management</span>
-          </li>
-          <li>
-            <div class="feature-icon">✓</div>
-            <span>Browse exclusive packages</span>
-          </li>
-          <li>
-            <div class="feature-icon">✓</div>
-            <span>Instant recharge options</span>
-          </li>
-          <li>
-            <div class="feature-icon">✓</div>
-            <span>24/7 account support</span>
-          </li>
-        </ul>
+<!-- ═══════════════════════════════════════
+     PAGE 1 – LOGIN
+═══════════════════════════════════════ -->
+<div class="page active auth-page" id="page-login">
+  <div class="auth-topbar">
+    <svg class="logo-svg" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="28" fill="#B14676">Dialog</text>
+      <polygon points="83,4 96,12 83,20" fill="#E66D5A"/>
+    </svg>
+  </div>
+  <svg class="poly-bg" viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,480 280,240 560,480" fill="#F5E6EE" opacity=".6"/>
+    <polygon points="140,480 420,180 560,380 560,480" fill="#EAC8D9" opacity=".5"/>
+    <polygon points="280,480 560,220 560,480" fill="#E66D5A" opacity=".18"/>
+    <polygon points="360,480 560,300 560,480" fill="#E66D5A" opacity=".25"/>
+    <polygon points="420,480 560,340 560,480" fill="#B14676" opacity=".3"/>
+    <polygon points="460,480 560,390 560,480" fill="#B14676" opacity=".45"/>
+    <polygon points="200,480 400,260 560,420 560,480" fill="#FBD4E3" opacity=".35"/>
+  </svg>
+  <div class="auth-body">
+    <div class="auth-left">
+      <div class="auth-welcome">Welcome<br>Back!</div>
+      <p class="auth-tagline">Manage your account, track usage,<br>and activate packages effortlessly</p>
+      <div class="feature-list">
+        <div class="feature-item"><span class="fi-icon">⏱️</span> Real-time data &amp; voice usage tracking</div>
+        <div class="feature-item"><span class="fi-icon">🌐</span> Browse and subscribe to packages</div>
+        <div class="feature-item"><span class="fi-icon">🛡️</span> Quick and secure recharge</div>
+        <div class="feature-item"><span class="fi-icon">🔔</span> Instant account notifications</div>
       </div>
     </div>
-
-    <!-- Right Section -->
-    <div class="login-right">
-      <div class="login-card">
-        <h2>Login</h2>
-        <p>Enter your credentials to access your account</p>
-
-        <form id="login-form" aria-label="Login form">
-          <!-- Mobile Number Field -->
-          <div class="form-group">
-            <label for="mobile-number">Mobile Number</label>
-            <input
-              type="tel"
-              id="mobile-number"
-              placeholder="e.g., 0701234567"
-              aria-label="Mobile number"
-              autocomplete="tel"
-              maxlength="10"
-            >
-            <div class="error-message"></div>
-          </div>
-
-          <!-- OTP Field -->
-          <div class="form-group">
-            <label for="otp">One-Time Password (OTP)</label>
-            <input
-              type="text"
-              id="otp"
-              placeholder="Enter 4-6 digit OTP"
-              aria-label="One-time password"
-              maxlength="6"
-            >
-            <div class="error-message"></div>
-          </div>
-
-          <!-- Links -->
-          <div class="login-links">
-            <a href="#forgot-password" aria-label="Forgot password?">Forgot Password?</a>
-            <a href="#register" aria-label="Create new account">Register</a>
-          </div>
-
-          <!-- Login Button -->
-          <button type="submit" class="btn btn-primary btn-block" style="margin-top: 2rem;">
-            Login
-          </button>
-        </form>
-
-        <!-- Register Link -->
-        <div class="register-link">
-          Don't have an account? <a href="#register">Register here</a>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-title">Sign In</div>
+        <div class="auth-card-desc">Enter your mobile number to get verification code</div>
+        <label class="field-lbl">Mobile Number</label>
+        <div class="phone-wrap">
+          <div class="phone-prefix"><span>🇱🇰</span> +94</div>
+          <input type="tel" id="login-number" placeholder="77 XXX XXX" maxlength="9">
+        </div>
+        <div class="field-error" id="login-error">Enter a valid 9-digit number (without leading 0).</div>
+        <button class="btn-grad" onclick="doLogin()">GET OTP</button>
+        <div class="help-block">
+          Need help signing in?<br>
+          <button class="help-pill" onclick="showToast('Support: 1777')">Contact Support →</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="app.js"></script>
+<!-- ═══════════════════════════════════════
+     PAGE 2 – VERIFY OTP
+═══════════════════════════════════════ -->
+<div class="page auth-page" id="page-verify">
+  <div class="auth-topbar">
+    <svg class="logo-svg" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="28" fill="#B14676">Dialog</text>
+      <polygon points="83,4 96,12 83,20" fill="#E66D5A"/>
+    </svg>
+  </div>
+  <svg class="poly-bg" viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,480 280,240 560,480" fill="#F5E6EE" opacity=".6"/>
+    <polygon points="140,480 420,180 560,380 560,480" fill="#EAC8D9" opacity=".5"/>
+    <polygon points="360,480 560,300 560,480" fill="#E66D5A" opacity=".25"/>
+    <polygon points="460,480 560,390 560,480" fill="#B14676" opacity=".45"/>
+  </svg>
+  <div class="auth-body">
+    <div class="auth-left">
+      <div class="auth-welcome">Verify Your<br>Number</div>
+      <div class="verify-phone" id="verify-phone-display">+94 77 XXX XXX</div>
+      <p class="auth-tagline" style="font-size:14px">We've sent a 4-digit OTP to your number.<br>Check your SMS inbox.</p>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-title">Enter OTP</div>
+        <div class="auth-card-desc" id="verify-desc">Enter the 4-digit code sent to your number.</div>
+        <div class="otp-row">
+          <input type="text" class="otp-input" maxlength="1" id="otp-1" oninput="otpNext(this,1)" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" id="otp-2" oninput="otpNext(this,2)" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" id="otp-3" oninput="otpNext(this,3)" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" id="otp-4" oninput="otpNext(this,4)" inputmode="numeric">
+        </div>
+        <div id="otp-error">Incorrect code. Demo OTP is 1234.</div>
+        <p class="timer-note" id="otp-timer">Code expires in <strong>2:00</strong></p>
+        <button class="btn-grad" style="margin-top:16px" onclick="doVerify()">VERIFY &amp; CONTINUE</button>
+        <div class="resend-row">Didn't get the code? <button class="btn-resend" onclick="resendOTP()">Resend OTP</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 3 – HOME (sidebar layout)
+═══════════════════════════════════════ -->
+<div class="page" id="page-home">
+  <div class="app-shell">
+    <div id="topbar-home"></div>
+    <div class="app-body">
+      <div id="sidebar-home"></div>
+      <div class="main-content">
+        <!-- Balance Bar -->
+        <div class="home-balance-bar">
+          <div class="bal-left">
+            <div class="bal-icon">💳</div>
+            <div>
+              <div class="bal-label">Available Balance</div>
+              <div class="bal-amount">Rs. 12.76</div>
+              <div class="bal-number">0777 123 456</div>
+            </div>
+          </div>
+          <div class="bal-meta">
+            <div class="bal-meta-item">
+              <div class="bal-meta-label">Expiry</div>
+              <div class="bal-meta-val">30 Jun 2026</div>
+            </div>
+            <div class="bal-meta-item">
+              <div class="bal-meta-label">Account</div>
+              <div class="bal-meta-val">Prepaid</div>
+            </div>
+            <div class="bal-meta-item">
+              <div class="bal-meta-label">Plan</div>
+              <div class="bal-meta-val">Dialog 4G</div>
+            </div>
+          </div>
+          <button class="btn-recharge" onclick="showToast('Recharge flow coming soon!')">+ Recharge</button>
+        </div>
+
+        <!-- Usage Stats -->
+        <div class="usage-grid">
+          <div class="usage-card">
+            <div class="usage-icon data">📶</div>
+            <div class="usage-lbl">Data</div>
+            <div class="usage-val">3.2 GB</div>
+            <div class="usage-sub">of 5 GB remaining</div>
+            <div class="prog-track"><div class="prog-fill fill-data" style="width:64%"></div></div>
+          </div>
+          <div class="usage-card">
+            <div class="usage-icon voice">📞</div>
+            <div class="usage-lbl">Voice</div>
+            <div class="usage-val">45 min</div>
+            <div class="usage-sub">of 100 min remaining</div>
+            <div class="prog-track"><div class="prog-fill fill-voice" style="width:45%"></div></div>
+          </div>
+          <div class="usage-card">
+            <div class="usage-icon sms">💬</div>
+            <div class="usage-lbl">SMS</div>
+            <div class="usage-val">82</div>
+            <div class="usage-sub">of 100 SMS remaining</div>
+            <div class="prog-track"><div class="prog-fill fill-sms" style="width:82%"></div></div>
+          </div>
+        </div>
+
+        <!-- Activity + Notifications -->
+        <div class="home-grid">
+          <div>
+            <div class="section-hd">Recent Activity</div>
+            <div class="activity-list">
+              <div class="act-item"><span class="act-dot" style="background:var(--plum)"></span><div class="act-info"><div class="act-name">Data Pack – 1 GB</div><div class="act-time">Today, 8:30 AM</div></div><div class="act-amt debit">-Rs. 99</div></div>
+              <div class="act-item"><span class="act-dot" style="background:#16A34A"></span><div class="act-info"><div class="act-name">Top-Up Received</div><div class="act-time">Yesterday, 6:12 PM</div></div><div class="act-amt credit">+Rs. 500</div></div>
+              <div class="act-item"><span class="act-dot" style="background:var(--coral)"></span><div class="act-info"><div class="act-name">SMS Bundle – 100</div><div class="act-time">23 Jun, 10:00 AM</div></div><div class="act-amt debit">-Rs. 25</div></div>
+              <div class="act-item"><span class="act-dot" style="background:#8B5CF6"></span><div class="act-info"><div class="act-name">Unlimited Night Data</div><div class="act-time">22 Jun, 11:55 PM</div></div><div class="act-amt debit">-Rs. 49</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="section-hd">Notifications</div>
+            <div class="notif-list">
+              <div class="notif-card unread"><div class="nc-icon">🎁</div><div><div class="nc-title">Exclusive Offer Just for You</div><div class="nc-body">Get 3 GB + 100 mins for only Rs. 199 – valid until June 30.</div><div class="nc-time">2 hours ago</div></div></div>
+              <div class="notif-card unread"><div class="nc-icon">⚡</div><div><div class="nc-title">Data Running Low</div><div class="nc-body">You've used 64% of your data. Recharge now to stay connected.</div><div class="nc-time">5 hours ago</div></div></div>
+              <div class="notif-card"><div class="nc-icon">✅</div><div><div class="nc-title">Pack Activated</div><div class="nc-body">Your Data Pack – 1 GB was activated successfully.</div><div class="nc-time">Today, 8:31 AM</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 4 – PACKAGES (matches Figma)
+═══════════════════════════════════════ -->
+<div class="page" id="page-packages">
+  <div class="app-shell">
+    <div id="topbar-packages"></div>
+    <div class="app-body">
+      <div id="sidebar-packages"></div>
+      <div class="main-content">
+        <!-- Header row -->
+        <div class="pkg-page-header">
+          <div class="pkg-page-title">Packages</div>
+          <div class="current-plan-chip">
+            <span class="chip-label">Anytime Data 3.15GB</span>
+            <span class="chip-price">Rs. 199</span>
+            <button class="chip-renew" onclick="showToast('Renewing current plan...')">RENEW</button>
+          </div>
+        </div>
+
+        <!-- Type tabs: ALL / DATA / VOICE / SMS -->
+        <div class="type-tabs" id="type-tabs">
+          <button class="type-tab active" onclick="setTypeTab('all',this)">ALL</button>
+          <button class="type-tab" onclick="setTypeTab('data',this)">DATA</button>
+          <button class="type-tab" onclick="setTypeTab('voice',this)">VOICE</button>
+          <button class="type-tab" onclick="setTypeTab('sms',this)">SMS</button>
+        </div>
+
+        <!-- Search + sort/filter -->
+        <div class="pkg-controls">
+          <div class="pkg-search-wrap">
+            <span class="pkg-search-icon">🔍</span>
+            <input type="text" class="pkg-search" id="pkg-search-input" placeholder="Search Packages" oninput="onSearchInput()">
+          </div>
+          <button class="icon-btn-sq" onclick="showToast('Sort options coming soon!')">⇅</button>
+          <button class="icon-btn-sq" onclick="showToast('Filter options coming soon!')">⚙</button>
+        </div>
+
+        <!-- Sub-category tabs -->
+        <div class="sub-tabs-wrap" id="sub-tabs">
+          <button class="sub-tab active" onclick="setSubTab('anytime',this)">ANYTIME</button>
+          <button class="sub-tab" onclick="setSubTab('night',this)">NIGHT TIME</button>
+          <button class="sub-tab" onclick="setSubTab('work',this)">WORK &amp; LEARN</button>
+          <button class="sub-tab" onclick="setSubTab('time',this)">TIME BASED</button>
+          <button class="sub-tab" onclick="setSubTab('social',this)">SOCIAL MEDIA</button>
+          <button class="sub-tab" onclick="setSubTab('unlimited',this)">UNLIMITED</button>
+        </div>
+
+        <!-- Section heading -->
+        <div class="pkg-section-title">
+          <span id="pkg-section-label">Anytime Data</span>
+          <span class="pkg-section-count" id="pkg-section-count"></span>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="pkg-cards-grid" id="pkg-cards-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 5 – HISTORY
+═══════════════════════════════════════ -->
+<div class="page" id="page-history">
+  <div class="app-shell">
+    <div id="topbar-history"></div>
+    <div class="app-body">
+      <div id="sidebar-history"></div>
+      <div class="main-content">
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:22px">History</h2>
+        <div class="history-list">
+          <div class="history-card"><div class="history-icon" style="background:#EEF2FF">📶</div><div class="history-info"><div class="history-name">Data Pack – 1 GB</div><div class="history-date">Today, 8:30 AM</div><span class="history-status status-success">Success</span></div><div class="history-amt debit">-Rs. 99</div></div>
+          <div class="history-card"><div class="history-icon" style="background:#F0FDF4">💳</div><div class="history-info"><div class="history-name">Top-Up Received</div><div class="history-date">Yesterday, 6:12 PM</div><span class="history-status status-success">Success</span></div><div class="history-amt credit">+Rs. 500</div></div>
+          <div class="history-card"><div class="history-icon" style="background:#FFF9EB">💬</div><div class="history-info"><div class="history-name">SMS Bundle – 100</div><div class="history-date">23 Jun, 10:00 AM</div><span class="history-status status-success">Success</span></div><div class="history-amt debit">-Rs. 25</div></div>
+          <div class="history-card"><div class="history-icon" style="background:#F5E6EE">🌙</div><div class="history-info"><div class="history-name">Unlimited Night Data</div><div class="history-date">22 Jun, 11:55 PM</div><span class="history-status status-success">Success</span></div><div class="history-amt debit">-Rs. 49</div></div>
+          <div class="history-card"><div class="history-icon" style="background:#EEF2FF">📶</div><div class="history-info"><div class="history-name">Monthly 5GB Pack</div><div class="history-date">1 Jun, 9:00 AM</div><span class="history-status status-pending">Pending</span></div><div class="history-amt debit">-Rs. 299</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 6 – NOTIFICATIONS
+═══════════════════════════════════════ -->
+<div class="page" id="page-notifications">
+  <div class="app-shell">
+    <div id="topbar-notifications"></div>
+    <div class="app-body">
+      <div id="sidebar-notifications"></div>
+      <div class="main-content">
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:22px">Notifications</h2>
+        <div class="notif-list">
+          <div class="notif-card unread"><div class="nc-icon">🎁</div><div><div class="nc-title">Exclusive Offer Just for You</div><div class="nc-body">Get 3 GB + 100 mins for only Rs. 199 – valid until June 30.</div><div class="nc-time">2 hours ago</div></div></div>
+          <div class="notif-card unread"><div class="nc-icon">⚡</div><div><div class="nc-title">Data Running Low</div><div class="nc-body">You've used 64% of your data. Recharge now to stay connected.</div><div class="nc-time">5 hours ago</div></div></div>
+          <div class="notif-card"><div class="nc-icon">✅</div><div><div class="nc-title">Pack Activated</div><div class="nc-body">Your Data Pack – 1 GB was activated successfully.</div><div class="nc-time">Today, 8:31 AM</div></div></div>
+          <div class="notif-card"><div class="nc-icon">📢</div><div><div class="nc-title">New Packages Available</div><div class="nc-body">Check out our new Social Media bundles starting at Rs. 29.</div><div class="nc-time">Yesterday</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe Modal -->
+<div class="modal-overlay" id="modal-subscribe">
+  <div class="modal">
+    <div class="modal-icon">🛒</div>
+    <div class="modal-title" id="modal-pkg-name">Package</div>
+    <div class="modal-body" id="modal-pkg-body">Subscribe to this package?</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmSubscribe()">Confirm</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════ LOGO SVG STRING ════ */
+const LOGO_SVG = `<svg style="height:26px;width:auto" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="28" fill="#B14676">Dialog</text>
+  <polygon points="83,4 96,12 83,20" fill="#E66D5A"/>
+</svg>`;
+
+/* ════ DATA ════ */
+const packages = [
+  // data – anytime
+  { id:1,  type:'data', sub:'anytime',   size:'100MB',  name:'Anytime Data',    features:['100MB Anytime Data','4G Enabled','Valid 24/7'],    price:49,  validity:'7 Days'  },
+  { id:2,  type:'data', sub:'anytime',   size:'500MB',  name:'Anytime Data',    features:['500MB Anytime Data','4G Enabled','Valid 24/7'],    price:99,  validity:'7 Days'  },
+  { id:3,  type:'data', sub:'anytime',   size:'1GB',    name:'Anytime Data',    features:['1GB Anytime Data','4G Enabled','Valid 24/7'],      price:149, validity:'30 Days' },
+  { id:4,  type:'data', sub:'anytime',   size:'3GB',    name:'Anytime Data',    features:['3GB Anytime Data','4G Enabled','Rollover Data'],   price:199, validity:'30 Days' },
+  { id:5,  type:'data', sub:'anytime',   size:'5GB',    name:'Anytime Data',    features:['5GB Anytime Data','4G Enabled','1GB YouTube'],     price:299, validity:'30 Days' },
+  { id:6,  type:'data', sub:'anytime',   size:'10GB',   name:'Anytime Data',    features:['10GB Anytime Data','4G Enabled','Rollover Data'],  price:499, validity:'30 Days' },
+  // data – night
+  { id:7,  type:'data', sub:'night',     size:'2GB',    name:'Night Time Data', features:['2GB Night Data','12AM–7AM Only','4G Enabled'],     price:29,  validity:'30 Days' },
+  { id:8,  type:'data', sub:'night',     size:'5GB',    name:'Night Time Data', features:['5GB Night Data','12AM–7AM Only','4G Enabled'],     price:49,  validity:'30 Days' },
+  { id:9,  type:'data', sub:'night',     size:'Unlim',  name:'Night Unlimited', features:['Unlimited Night Data','12AM–7AM Only','4G'],       price:79,  validity:'30 Days' },
+  // data – work
+  { id:10, type:'data', sub:'work',      size:'1GB',    name:'Work & Learn',    features:['1GB Education Data','Zoom & Meet','4G Enabled'],   price:99,  validity:'30 Days' },
+  { id:11, type:'data', sub:'work',      size:'3GB',    name:'Work & Learn',    features:['3GB Education Data','Zoom & Meet','4G Enabled'],   price:199, validity:'30 Days' },
+  // voice
+  { id:12, type:'voice', sub:'anytime',  size:'30',     name:'Talktime Pack',   features:['30 Mins Any Network','Free Dialog-Dialog','Valid 7 Days'], price:25,  validity:'7 Days'  },
+  { id:13, type:'voice', sub:'anytime',  size:'100',    name:'Talktime Pack',   features:['100 Mins Any Network','Free Dialog-Dialog','Valid 30 Days'],price:79,  validity:'30 Days' },
+  { id:14, type:'voice', sub:'unlimited',size:'∞',      name:'Unlimited Calls', features:['Unlimited Dialog Calls','300 Mins Other Nets','4G Enabled'],price:149, validity:'30 Days' },
+  // sms
+  { id:15, type:'sms',   sub:'anytime',  size:'50',     name:'SMS Bundle',      features:['50 SMS Any Network','Group SMS','Valid 7 Days'],   price:10,  validity:'7 Days'  },
+  { id:16, type:'sms',   sub:'anytime',  size:'200',    name:'SMS Bundle',      features:['200 SMS Any Network','Group SMS','Valid 30 Days'], price:25,  validity:'30 Days' },
+];
+
+/* ════ TOPBAR HTML ════ */
+function topbarHTML(page) {
+  return `<div class="app-topbar">
+    <div class="topbar-brand">${LOGO_SVG}</div>
+    <div class="topbar-user">
+      <div class="topbar-avatar">K</div>
+      <div class="topbar-user-info">
+        <div class="topbar-user-name">Hello, 077 123 456</div>
+        <div class="topbar-status"><span class="status-dot"></span> Connected</div>
+      </div>
+    </div>
+    <div class="topbar-icons">
+      <button class="topbar-icon-btn" onclick="showPage('page-notifications')">🔔<span class="notif-badge">3</span></button>
+      <button class="topbar-icon-btn" onclick="showToast('Search coming soon!')">🔍</button>
+      <button class="topbar-icon-btn" onclick="showToast('Profile: Nimal Kumara')">👤</button>
+    </div>
+  </div>`;
+}
+
+/* ════ SIDEBAR HTML ════ */
+function sidebarHTML(active) {
+  const links = [
+    { id:'home',          icon:'🏠', label:'Home' },
+    { id:'packages',      icon:'📦', label:'Packages', dot:true },
+    { id:'history',       icon:'🕐', label:'History' },
+    { id:'notifications', icon:'🔔', label:'Notifications' },
+    { id:'help',          icon:'❓', label:'Help' },
+    { id:'settings',      icon:'⚙️', label:'Settings' },
+  ];
+  return `<nav class="sidebar">
+    <div class="sidebar-nav">
+      ${links.map(l=>`
+        <button class="sidebar-link ${active===l.id?'active':''}" onclick="showPage('page-${l.id}')">
+          <span class="sl-icon">${l.icon}</span>${l.label}
+          ${l.dot&&active!==l.id?'<span class="sl-dot"></span>':''}
+        </button>`).join('')}
+    </div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">N</div>
+        <div>
+          <div class="sidebar-user-name">Nimal Kumara</div>
+          <div class="sidebar-user-num">077 123 4567</div>
+        </div>
+      </div>
+    </div>
+  </nav>`;
+}
+
+/* ════ ROUTER ════ */
+const appPages = ['page-home','page-packages','page-history','page-notifications','page-help','page-settings'];
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById(id);
+  if (!pg) { showToast('Coming soon!'); return; }
+  pg.classList.add('active');
+
+  const name = id.replace('page-','');
+  const topbarEl = document.getElementById('topbar-'+name);
+  const sidebarEl = document.getElementById('sidebar-'+name);
+  if (topbarEl)  topbarEl.innerHTML  = topbarHTML(name);
+  if (sidebarEl) sidebarEl.innerHTML = sidebarHTML(name);
+
+  if (id==='page-packages') { currentType='all'; currentSub='anytime'; renderPkgCards(); }
+  window.scrollTo(0,0);
+}
+
+/* ════ LOGIN ════ */
+function doLogin() {
+  const num = document.getElementById('login-number').value.trim();
+  const err = document.getElementById('login-error');
+  if (!/^[0-9]{9}$/.test(num)) { err.style.display='block'; return; }
+  err.style.display='none';
+  document.getElementById('verify-phone-display').textContent = '+94 '+num.replace(/(\d{2})(\d{3})(\d{4})/,'$1 $2 $3');
+  showPage('page-verify');
+  startTimer();
+  setTimeout(()=>document.getElementById('otp-1').focus(),120);
+}
+
+/* ════ OTP ════ */
+let timerInt=null;
+function startTimer(){
+  clearInterval(timerInt); let s=120;
+  const el=document.getElementById('otp-timer');
+  timerInt=setInterval(()=>{
+    s--;
+    el.innerHTML=`Code expires in <strong>${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}</strong>`;
+    if(s<=0){clearInterval(timerInt);el.innerHTML='<strong style="color:var(--coral)">Code expired.</strong>';}
+  },1000);
+}
+function otpNext(inp,idx){ inp.value=inp.value.replace(/\D/g,''); if(inp.value&&idx<4) document.getElementById('otp-'+(idx+1)).focus(); }
+function doVerify(){
+  const code=[1,2,3,4].map(i=>document.getElementById('otp-'+i).value).join('');
+  const err=document.getElementById('otp-error');
+  if(code!=='1234'){err.style.display='block';return;}
+  err.style.display='none'; clearInterval(timerInt);
+  showPage('page-home');
+}
+function resendOTP(){
+  [1,2,3,4].forEach(i=>{document.getElementById('otp-'+i).value='';});
+  document.getElementById('otp-error').style.display='none';
+  document.getElementById('otp-1').focus();
+  startTimer(); showToast('OTP resent! Demo code: 1234');
+}
+
+/* ════ PACKAGES LOGIC ════ */
+let currentType='all', currentSub='anytime', searchQ='';
+let pendingPkg=null;
+
+const subLabels={anytime:'Anytime Data',night:'Night Time',work:'Work & Learn',time:'Time Based',social:'Social Media',unlimited:'Unlimited'};
+
+function setTypeTab(type,btn){
+  currentType=type; searchQ='';
+  document.getElementById('pkg-search-input').value='';
+  document.querySelectorAll('.type-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderPkgCards();
+}
+function setSubTab(sub,btn){
+  currentSub=sub;
+  document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pkg-section-label').textContent = subLabels[sub]||sub;
+  renderPkgCards();
+}
+function onSearchInput(){
+  searchQ=document.getElementById('pkg-search-input').value.toLowerCase().trim();
+  renderPkgCards();
+}
+
+function renderPkgCards(){
+  let list = packages;
+  if(currentType!=='all') list=list.filter(p=>p.type===currentType);
+  list=list.filter(p=>p.sub===currentSub);
+  if(searchQ) list=list.filter(p=>p.name.toLowerCase().includes(searchQ)||p.size.toLowerCase().includes(searchQ)||p.features.some(f=>f.toLowerCase().includes(searchQ)));
+
+  const grid=document.getElementById('pkg-cards-grid');
+  if(!grid) return;
+  document.getElementById('pkg-section-count').textContent = list.length ? `${list.length} Package${list.length>1?'s':''} Found` : '';
+
+  if(!list.length){
+    grid.innerHTML=`<div class="pkg-empty-state"><div class="pkg-empty-icon">📦</div><div style="font-size:15px;font-weight:600">No packages found</div></div>`;
+    return;
+  }
+
+  grid.innerHTML=list.map(p=>`
+    <div class="pkg-card-new">
+      <div class="pkg-card-bg"></div>
+      <div class="pkg-card-inner">
+        <div class="pkg-type-pill">${p.type.charAt(0).toUpperCase()+p.type.slice(1)}</div>
+        <div class="pkg-card-size">${p.size}${p.type==='data'&&p.size!=='Unlim'?'':''}${p.type==='voice'&&p.size!=='∞'?' Mins':''}</div>
+        <div class="pkg-card-subname">${p.name}</div>
+        <div class="pkg-details">
+          <div class="pkg-features">
+            ${p.features.map(f=>`<div class="pkg-feature">${f}</div>`).join('')}
+          </div>
+          <div class="pkg-price-col">
+            <div class="pkg-price-val">Rs. ${p.price}</div>
+            <div class="pkg-validity-val">${p.validity}</div>
+          </div>
+        </div>
+      </div>
+      <div class="pkg-card-actions">
+        <button class="btn-subscribe-new" onclick="openModal(${p.id})">Subscribe</button>
+        <button class="btn-details" onclick="showToast('${p.name} ${p.size} – Rs.${p.price}')">Details ›</button>
+      </div>
+    </div>`).join('');
+}
+
+function openModal(id){
+  pendingPkg=packages.find(p=>p.id===id);
+  document.getElementById('modal-pkg-name').textContent=`${pendingPkg.name} – ${pendingPkg.size}`;
+  document.getElementById('modal-pkg-body').textContent=`Subscribe for Rs. ${pendingPkg.price}? Valid for ${pendingPkg.validity}.`;
+  document.getElementById('modal-subscribe').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-subscribe').classList.remove('open'); pendingPkg=null; }
+function confirmSubscribe(){ const n=pendingPkg?`${pendingPkg.name} ${pendingPkg.size}`:'Pack'; closeModal(); showToast(`✅ ${n} activated!`); }
+
+/* ════ TOAST ════ */
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+/* ════ KEYBOARD ════ */
+document.getElementById('login-number').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('page-verify').classList.contains('active'))doVerify();});
+document.querySelectorAll('.otp-input').forEach((inp,i)=>{
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&i>0)document.getElementById('otp-'+i).focus();});
+});
+document.getElementById('modal-subscribe').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ════ INIT ════ */
+document.getElementById('topbar-home').innerHTML    = topbarHTML('home');
+document.getElementById('sidebar-home').innerHTML   = sidebarHTML('home');
+</script>
 </body>
 </html>

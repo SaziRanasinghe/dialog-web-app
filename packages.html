@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dialog Sri Lanka - Packages</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Decorative Elements -->
+  <div class="decoration decoration-1"></div>
+  <div class="decoration decoration-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo">📱 Dialog</div>
+      <div class="header-icons">
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <div class="avatar" aria-label="User profile">D</div>
+      </div>
+    </div>
+  </header>
+
+  <div style="display: flex;">
+    <!-- Sidebar Navigation (Desktop) -->
+    <aside class="sidebar">
+      <nav aria-label="Main navigation">
+        <a href="home.html" aria-label="Dashboard">
+          <span>🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="packages.html" class="active" aria-label="Packages">
+          <span>📦</span>
+          <span>Packages</span>
+        </a>
+        <a href="#settings" aria-label="Settings">
+          <span>⚙️</span>
+          <span>Settings</span>
+        </a>
+        <a href="#" data-action="logout" aria-label="Logout">
+          <span>🚪</span>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="page-header">
+        <h1>Packages</h1>
+        <p style="color: var(--text-light);">Choose the perfect package for your needs</p>
+      </section>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" role="tablist" aria-label="Package categories">
+        <button
+          class="filter-btn active"
+          data-filter="all"
+          role="tab"
+          aria-selected="true"
+          aria-label="View all packages"
+        >
+          All
+        </button>
+        <button
+          class="filter-btn"
+          data-filter="data"
+          role="tab"
+          aria-selected="false"
+          aria-label="View data packages"
+        >
+          Data
+        </button>
+        <button
+          class="filter-btn"
+          data-filter="voice"
+          role="tab"
+          aria-selected="false"
+          aria-label="View voice packages"
+        >
+          Voice
+        </button>
+        <button
+          class="filter-btn"
+          data-filter="sms"
+          role="tab"
+          aria-selected="false"
+          aria-label="View SMS packages"
+        >
+          SMS
+        </button>
+      </div>
+
+      <!-- Package Grid -->
+      <div class="package-grid" role="region" aria-label="Available packages">
+
+        <!-- ===== DATA PACKAGES ===== -->
+
+        <!-- 100MB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">100 MB</div>
+              <div class="package-size">One-time purchase</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 19</div>
+            <div class="package-duration">Valid for 7 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 100MB package">Subscribe</button>
+        </article>
+
+        <!-- 500MB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">500 MB</div>
+              <div class="package-size">One-time purchase</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 49</div>
+            <div class="package-duration">Valid for 14 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 500MB package">Subscribe</button>
+        </article>
+
+        <!-- 1GB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">1 GB</div>
+              <div class="package-size">One-time purchase</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 79</div>
+            <div class="package-duration">Valid for 21 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 1GB package">Subscribe</button>
+        </article>
+
+        <!-- 2GB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">2 GB</div>
+              <div class="package-size">One-time purchase</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 99</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 2GB package">Subscribe</button>
+        </article>
+
+        <!-- 5GB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">5 GB</div>
+              <div class="package-size">Monthly plan</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 199</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 5GB package">Subscribe</button>
+        </article>
+
+        <!-- 10GB Package -->
+        <article class="package-card" data-category="data">
+          <div class="package-header">
+            <div>
+              <div class="package-name">10 GB</div>
+              <div class="package-size">Monthly plan</div>
+            </div>
+            <div class="package-badge badge-data">DATA</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 299</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 10GB package">Subscribe</button>
+        </article>
+
+        <!-- ===== VOICE PACKAGES ===== -->
+
+        <!-- 100 Minutes -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">100 Minutes</div>
+              <div class="package-size">Local calls only</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 49</div>
+            <div class="package-duration">Valid for 7 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 100 minutes package">Subscribe</button>
+        </article>
+
+        <!-- 250 Minutes -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">250 Minutes</div>
+              <div class="package-size">Local calls only</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 99</div>
+            <div class="package-duration">Valid for 14 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 250 minutes package">Subscribe</button>
+        </article>
+
+        <!-- Unlimited Nights -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">Unlimited Nights</div>
+              <div class="package-size">9 PM - 6 AM</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 29</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to unlimited nights package">Subscribe</button>
+        </article>
+
+        <!-- 500 Minutes Monthly -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">500 Minutes</div>
+              <div class="package-size">Monthly plan</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 149</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 500 minutes monthly package">Subscribe</button>
+        </article>
+
+        <!-- Unlimited Local -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">Unlimited Local</div>
+              <div class="package-size">Anytime calls</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 399</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to unlimited local calls package">Subscribe</button>
+        </article>
+
+        <!-- International Calls -->
+        <article class="package-card" data-category="voice">
+          <div class="package-header">
+            <div>
+              <div class="package-name">Intl. Calls</div>
+              <div class="package-size">Selected countries</div>
+            </div>
+            <div class="package-badge badge-voice">VOICE</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 199</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to international calls package">Subscribe</button>
+        </article>
+
+        <!-- ===== SMS PACKAGES ===== -->
+
+        <!-- 50 SMS -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">50 SMS</div>
+              <div class="package-size">Local SMS</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 5</div>
+            <div class="package-duration">Valid for 7 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 50 SMS package">Subscribe</button>
+        </article>
+
+        <!-- 100 SMS -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">100 SMS</div>
+              <div class="package-size">Local SMS</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 9</div>
+            <div class="package-duration">Valid for 14 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 100 SMS package">Subscribe</button>
+        </article>
+
+        <!-- 250 SMS -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">250 SMS</div>
+              <div class="package-size">Local SMS</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 19</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 250 SMS package">Subscribe</button>
+        </article>
+
+        <!-- 500 SMS Monthly -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">500 SMS</div>
+              <div class="package-size">Monthly plan</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 29</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to 500 SMS monthly package">Subscribe</button>
+        </article>
+
+        <!-- Unlimited SMS -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">Unlimited SMS</div>
+              <div class="package-size">Local & Intl.</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 49</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to unlimited SMS package">Subscribe</button>
+        </article>
+
+        <!-- Premium SMS -->
+        <article class="package-card" data-category="sms">
+          <div class="package-header">
+            <div>
+              <div class="package-name">Premium SMS</div>
+              <div class="package-size">All features included</div>
+            </div>
+            <div class="package-badge badge-sms">SMS</div>
+          </div>
+          <div class="package-details">
+            <div class="package-price">Rs. 79</div>
+            <div class="package-duration">Valid for 30 days</div>
+          </div>
+          <button class="btn-subscribe" aria-label="Subscribe to premium SMS package">Subscribe</button>
+        </article>
+
+      </div>
+
+      <div style="margin-bottom: 2rem;"></div>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="home.html" aria-label="Dashboard">🏠 Dashboard</a>
+    <a href="packages.html" class="active" aria-label="Packages">📦 Packages</a>
+    <a href="#settings" aria-label="Settings">⚙️ Settings</a>
+    <a href="#" data-action="logout" aria-label="Logout">🚪 Logout</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -334,6 +334,12 @@ header {
   gap: 0.5rem;
 }
 
+.logo.png {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
 .header-icons {
   display: flex;
   gap: 1.5rem;

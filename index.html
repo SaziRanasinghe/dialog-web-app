@@ -42,8 +42,12 @@ button{cursor:pointer}
 .page.active{display:flex;flex-direction:column}
 
 /* ════ LOGO SVG ════ */
-.logo-svg{height:26px;width:auto;display:block}
-
+.logo-img{height:26px;width:auto;display:block}
+.logo-img{
+  height:40px;
+  width:auto;
+  display:block;
+}
 /* ══════════════════════════════════════════════
    AUTH SHARED
 ══════════════════════════════════════════════ */
@@ -542,10 +546,13 @@ button{cursor:pointer}
 ═══════════════════════════════════════ -->
 <div class="page active auth-page" id="page-login">
   <div class="auth-topbar">
-    <svg class="logo-svg" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- <svg class="logo-svg" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
       <text x="0" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="28" fill="#B14676">Dialog</text>
       <polygon points="83,4 96,12 83,20" fill="#E66D5A"/>
-    </svg>
+    </svg> -->
+    <div class="logo" aria-label="Dialog logo">
+  <img src="logo.png" alt="Dialog Logo" class="logo-img">
+</div>
   </div>
   <svg class="poly-bg" viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg">
     <polygon points="0,480 280,240 560,480" fill="#F5E6EE" opacity=".6"/>
@@ -592,7 +599,7 @@ button{cursor:pointer}
 ═══════════════════════════════════════ -->
 <div class="page auth-page" id="page-verify">
   <div class="auth-topbar">
-    <svg class="logo-svg" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="logo-img" viewBox="0 0 96 34" fill="none" xmlns="http://www.w3.org/2000/svg">
       <text x="0" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="28" fill="#B14676">Dialog</text>
       <polygon points="83,4 96,12 83,20" fill="#E66D5A"/>
     </svg>
